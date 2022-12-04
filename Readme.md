@@ -2,5 +2,5 @@
 
 커맨드
 ```
-./main -nas=D:/fake_nas -in=/sample/input -out=/sample/gosepia
+# ./main (json string DATA)
 ```

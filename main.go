@@ -1,22 +1,25 @@
 package main
 
 import (
-	"flag"
+	"encoding/json"
 	"os"
 	"sample/sepia/src/utils"
 )
 
 func main() {
 
-	nasPath := flag.String("nas", "D:", "path to nas")
-	inputDir := flag.String("in", "/input", "path to input directory")
-	outputDir := flag.String("out", "/output", "path to output directory")
+	jsonString := os.Args[1]
 
-	flag.Parse()
+	var jsonMap map[string]interface{}
+	json.Unmarshal([]byte(jsonString), &jsonMap)
 
-	if err := os.MkdirAll(*nasPath+*outputDir, os.ModePerm); err != nil {
+	nasPath := jsonMap["nasPath"].(string)
+	inputDir := jsonMap["inputDir"].(string)
+	outputDir := jsonMap["outputDir"].(string)
+
+	if err := os.MkdirAll(nasPath+outputDir, os.ModePerm); err != nil {
 		panic(err)
 	}
 
-	utils.ChangeSepia(*nasPath+*inputDir, *nasPath+*outputDir)
+	utils.ChangeSepia(nasPath+inputDir, nasPath+outputDir)
 }
